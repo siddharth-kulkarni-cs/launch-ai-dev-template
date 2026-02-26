@@ -1,0 +1,11 @@
+---
+description: Development workflow for this repo — code change lifecycle, skill file references, testing rules, naming conventions, validation commands, commit/PR rules. Follow for every AI-assisted code change.
+alwaysApply: true
+---
+
+See the full [Development Workflow Rules](../../rules/dev-workflow.md) for detailed guidance on:
+- Code change lifecycle (Understand → Implement → Test → Validate → Review)
+- Skill file references and when to read them
+- Testing rules, coverage, and test naming
+- Naming conventions and validation commands
+- Commit messages and PR requirements 
