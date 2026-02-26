@@ -1,0 +1,9 @@
+---
+description: Coding conventions and style guidelines
+globs: *
+---
+# Coding Conventions
+
+> Source of truth: `/ai/rules/coding-conventions.md`
+
+Please read and follow the canonical rules defined in `/ai/rules/coding-conventions.md` before proceeding.

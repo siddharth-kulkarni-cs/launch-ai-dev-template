@@ -4,8 +4,9 @@
 
 ## Standards
 
-**Testing:** Every change needs tests (happy path + error path). 90% coverage minimum.
+**Testing: Every change needs tests (happy path + error path). 90% coverage minimum. By default, any code change should be done with TDD.
 → [Testing Skill](/ai/skills/testing-skill.md)
+→ [TDD Skill**](/ai/skills/tdd-skill.md)
 
 **Code Style:** `kebab-case.ts` files, `PascalCase` classes, named exports only.
 → [Code Style Skill](/ai/skills/code-style-skill.md)
@@ -26,6 +27,7 @@
 **Layers:** Controller → Service → Repository
 
 **Key flows:**
+
 - {Add application-specific flows here}
 
 ## Validation Commands
@@ -39,6 +41,10 @@ npm run validate      # Full validation
 
 ## Finding Skills
 
+> **Note for Cursor Users:** Skills and Rules are natively auto-discovered via the `.cursor/` directory. You do not need to manually search for them.
+
+For other AI agents, use the following commands to find relevant skills:
+
 ```bash
 ls ai/skills/
 grep -r "description:.*keyword" ai/skills/*-skill.md
@@ -46,13 +52,15 @@ cat ai/skills/{name}-skill.md
 ```
 
 **Categories:**
-- **Dev:** testing, code-style, commit-format, pr-review, security, creating-skills
+
+- **Dev:** tdd, testing, code-style, commit-format, pr-review, security, creating-skills
 - **Setup:** {local-setup, docker-dev — add if created}
 - **Logic:** {request-flow, auth-flow — add if created}
 
 ## Critical Files
 
 Do not modify without review:
+
 - `package.json` — dependency changes
 - `migrations/` — database migrations
 - `.env.example` — environment config
@@ -60,10 +68,13 @@ Do not modify without review:
 
 ## Quick Links
 
-| Resource | Path |
-|----------|------|
-| Context | `/ai/context/` |
-| Rules | `/ai/rules/` |
-| Commands | `/ai/commands/` |
-| Skills | `/ai/skills/` |
+
+| Resource | Path             |
+| -------- | ---------------- |
+| Context  | `/ai/context/`   |
+| Rules    | `/ai/rules/`     |
+| Commands | `/ai/commands/`  |
+| Skills   | `/ai/skills/`    |
 | Manifest | `/ai/index.json` |
+
+

@@ -67,6 +67,15 @@ All skills go in `/ai/skills/` as flat files:
 /ai/skills/{name}-skill.md
 ```
 
+> **Cursor Note:** When creating a new skill, you must also create a pointer file at `.cursor/skills/{name}/SKILL.md` with the following content:
+> ```markdown
+> # {Name} Skill
+> 
+> > Source of truth: `/ai/skills/{name}-skill.md`
+> 
+> To use this skill, you MUST read and follow the instructions in `/ai/skills/{name}-skill.md`.
+> ```
+
 Examples:
 - `testing-skill.md`
 - `order-service-skill.md`

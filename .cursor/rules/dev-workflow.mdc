@@ -1,35 +1,9 @@
 ---
-description: Development workflow rules — code lifecycle, testing, naming, validation. Auto-loaded for all AI-assisted development.
-alwaysApply: true
+description: Development workflow and process guidelines
+globs: *
 ---
-
-# Development Rules
+# Development Workflow
 
 > Source of truth: `/ai/rules/dev-workflow.md`
 
-This is a placeholder rule that points to the canonical rules in the `/ai` directory.
-
-## Quick Reference
-
-1. **Understand** — Read relevant skill files before coding
-2. **Implement** — Follow patterns in `/ai/skills/`
-3. **Test** — Write tests for every change
-4. **Validate** — Run `npm run validate`
-5. **Review** — Check against PR review skill
-
-## Key Rules
-
-- Tests required: happy path + error path
-- Coverage minimum: 90%
-- No `any` types, no `console.log`
-- Conventional commits format
-
-## Full Documentation
-
-See `/ai/rules/dev-workflow.md` for complete rules.
-
-## Related Skills
-
-- `/ai/skills/testing-skill.md`
-- `/ai/skills/code-style-skill.md`
-- `/ai/skills/pr-review-skill.md`
+Please read and follow the canonical rules defined in `/ai/rules/dev-workflow.md` before proceeding.

@@ -10,8 +10,8 @@
 Every code change must follow this sequence:
 
 1. **Understand** — Read relevant skill files before writing code
-2. **Implement** — Write code following patterns in `/ai/skills/`
-3. **Test** — Write or update tests for every change
+2. **Test** — Write tests FIRST following `/ai/skills/tdd-skill.md` and `/ai/skills/testing-skill.md`
+3. **Implement** — Write code to pass tests, following patterns in `/ai/skills/`
 4. **Validate** — Run validation commands after code generation
 5. **Review** — Self-review against PR review skill checklist
 
@@ -23,6 +23,7 @@ Before working on any area, read the relevant skills:
 
 | Scope | Skill | When to Read |
 |-------|-------|--------------|
+| TDD | `/ai/skills/tdd-skill.md` | Starting any new feature or bug fix |
 | Testing | `/ai/skills/testing-skill.md` | Writing or updating tests |
 | Code Style | `/ai/skills/code-style-skill.md` | Writing any code |
 | Commits | `/ai/skills/commit-format-skill.md` | Making commits |

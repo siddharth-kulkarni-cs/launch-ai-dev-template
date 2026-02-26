@@ -29,6 +29,7 @@
 
 | Skill | File | Purpose |
 |-------|------|---------|
+| TDD | `tdd-skill.md` | Test-driven development, red-green-refactor |
 | Testing | `testing-skill.md` | Test patterns, frameworks, coverage |
 | Code Style | `code-style-skill.md` | Naming, organization, conventions |
 | Commit Format | `commit-format-skill.md` | Commit messages, workflow |

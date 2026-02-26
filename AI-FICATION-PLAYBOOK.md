@@ -84,35 +84,49 @@ Create at least:
 
 **Each command must define:** goal, inputs, steps, constraints, output schema
 
-## Phase 5: Generate Mandatory Skills (6 × 200-500 lines)
+> **Cursor Note:** When creating a new command, you must also create a pointer file at `.cursor/commands/{name}.md` with the following content:
+> ```markdown
+> # {Name} Command
+> 
+> > Source of truth: `/ai/commands/{name}.md`
+> 
+> When asked to {action}, please read and follow the instructions in `/ai/commands/{name}.md`.
+> ```
+
+## Phase 5: Generate Mandatory Skills (7 × 200-500 lines)
 
 **File format:** `/ai/skills/{name}-skill.md` (flat, no nested folders)
 
-### 1. testing-skill.md
+### 1. tdd-skill.md
+**Fixed content:** Test-driven development with red-green-refactor loop.
+**Sections:** Philosophy, Anti-Pattern: Horizontal Slices, Workflow (Planning, Tracer Bullet, Incremental Loop, Refactor), Checklist Per Cycle.
+**Must:** Emphasize vertical slices and testing behavior over implementation.
+
+### 2. testing-skill.md
 **Discover:** Find test dir, identify framework, read 2-3 tests, extract patterns
 **Sections:** File Naming, Test Pattern (real code), Writing Tests, Mocking (framework-specific), Running Tests, Common Pitfalls
 **Must:** Real code examples from repo tests
 
-### 2. code-style-skill.md
+### 3. code-style-skill.md
 **Discover:** Check linter config, read 5-10 source files for patterns (naming, organization, comments, errors), check formatter
 **Sections:** Naming (functions, vars, constants, classes), File Organization, Comments Policy, Error Handling, {Language}-Specific
 **Must:** Real patterns from codebase
 
-### 3. commit-format-skill.md
+### 4. commit-format-skill.md
 **Discover:** `git log --oneline -20`, check CONTRIBUTING.md
 **Sections:** Format (observed), Get Branch Name, Good Messages (why not what), When to Commit, Workflow
 **Must:** Real examples from git log
 
-### 4. code-review-skill.md
+### 5. code-review-skill.md
 **Sections:** Test Checklist, Code Style Checklist, Security Checklist, Commit Checklist, Functional Review, Feedback Format
 **Must:** Cross-reference all other skills
 
-### 5. security-skill.md
+### 6. security-skill.md
 **Discover:** Check .env.example, identify secret types, auth patterns, input validation
 **Sections:** Never Commit Secrets (specific types), Environment Variables (how loaded), Input Validation, Auth Patterns, Logging Security
 **Must:** Real patterns from code
 
-### 6. creating-skills-skill.md
+### 7. creating-skills-skill.md
 **Fixed content:** When/Not to Create, Structure, AI Guidelines
 **Rules:** Major feature YES, bug fix NO, focus implementation not explanation.  Also update index.json if a new rule is created if applicable.  Add the reference to .cursor/skills folder.
 
@@ -235,6 +249,10 @@ Machine-readable manifest listing:
 - [{Flow}](/ai/skills/{flow}-skill.md)
 
 ## Finding Skills
+   
+> **Note for Cursor Users:** Skills and Rules are natively auto-discovered via the `.cursor/` directory. You do not need to manually search for them.
+
+For other AI agents, use the following commands to find relevant skills:
 
 ```bash
 ls ai/skills/
@@ -248,27 +266,14 @@ cat ai/skills/{name}-skill.md
 - **Logic:** {list if exists}
 ```
 
-## Phase 12: Create Cursor Instructions
+## Phase 12: Create IDE-Specific Pointer Files
 
-Add `.cursor/{placeholder}-rules.md` that:
-- Each rule that is added to ai/rules folder should have a corresponding rule in .cursor folder that links to this folder
-- Explains explains a placeholder rule
-- Points to `/ai/rules` as source of truth
-- Instructs agent to consult commands and rules before changes
-- Lists critical constraints
+To enable native auto-discovery while maintaining `/ai/` as the single source of truth, generate pointer files for specific IDEs:
 
-Add `.cursor/{placeholder}-skills.md` that:
-- Each skill that is added to ai/skills folder should have a corresponding skill in .cursor folder that links to this folder
-- Explains explains a placeholder skill
-- Points to `/ai/skills` as source of truth
-
-
-Add `.cursor/{placeholder}-command.md` that:
-- Each command that is added to ai/commands folder should have a corresponding command in .cursor folder that links to this folder
-- Explains explains a placeholder command
-- Points to `/ai/commands` as source of truth
-- Instructs agent to consult commands and rules before changes
-- Lists critical constraints
+**For Cursor:**
+- **Rules:** Create `.cursor/rules/<name>.mdc` files. Include YAML frontmatter (`description`, `globs`) and instruct the agent to read the corresponding `/ai/rules/` file.
+- **Commands:** Create `.cursor/commands/<name>.md` files. Instruct the agent to read the corresponding `/ai/commands/` file.
+- **Skills:** Create `.cursor/skills/<name>/SKILL.md` files. Instruct the agent to execute the corresponding `/ai/skills/` file.
 
 ## Content Rules
 
@@ -300,14 +305,14 @@ Add `.cursor/{placeholder}-command.md` that:
 3. Generate context files (architecture, domain, glossary)
 4. Generate rules
 5. Generate core commands
-6. Create 6 mandatory skills (30-60min)
+6. Create 7 mandatory skills (30-60min)
 7. Create application logic skills (30-90min)
 8. Create optional skills (15-30min)
 9. Create workflow skills
 10. Create examples
 11. Create index.json
 12. Create AGENTS.md (5min): 50-80 lines
-13. Create .cursor/rules.md
+13. Create IDE-Specific Pointer Files (Cursor `.mdc`)
 
 **Total:** 2-4 hours
 **Output:** AI-fied repo with discoverable, cross-IDE compatible layer

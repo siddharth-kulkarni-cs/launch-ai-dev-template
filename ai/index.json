@@ -60,6 +60,11 @@
       "description": "Analyze production incidents"
     },
     {
+      "name": "snyk-fixes",
+      "path": "ai/commands/snyk-fixes.md",
+      "description": "Fix Snyk vulnerabilities"
+    },
+    {
       "name": "explain-code",
       "path": "ai/commands/explain-code.md",
       "description": "Explain code sections"
@@ -67,6 +72,11 @@
   ],
   "skills": {
     "mandatory": [
+      {
+        "name": "tdd",
+        "path": "ai/skills/tdd-skill.md",
+        "category": "dev"
+      },
       {
         "name": "testing",
         "path": "ai/skills/testing-skill.md",
