@@ -1,0 +1,32 @@
+---
+description: Skills index — domain knowledge and patterns for AI-assisted development.
+alwaysApply: false
+---
+
+# Skills Reference
+
+> Source of truth: `/ai/skills/`
+
+This is a placeholder that points to the canonical skills in the `/ai` directory.
+
+## Available Skills
+
+| Skill | Path | Purpose |
+|-------|------|---------|
+| Testing | `/ai/skills/testing-skill.md` | Test patterns, frameworks |
+| Code Style | `/ai/skills/code-style-skill.md` | Naming, organization |
+| Commit Format | `/ai/skills/commit-format-skill.md` | Commit messages, workflow |
+| PR Review | `/ai/skills/pr-review-skill.md` | Review checklist |
+| Security | `/ai/skills/security-skill.md` | Secrets, validation, auth |
+| Creating Skills | `/ai/skills/creating-skills-skill.md` | How to add skills |
+
+## Finding Skills
+
+```bash
+ls ai/skills/
+grep -r "description:.*keyword" ai/skills/*-skill.md
+```
+
+## Full Index
+
+See `/ai/skills/` directory for all available skills.

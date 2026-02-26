@@ -1,1 +1,0 @@
-See the [skills](../../skills/skills.md) for more details.

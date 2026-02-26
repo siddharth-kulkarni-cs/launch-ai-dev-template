@@ -1,0 +1,110 @@
+{
+  "version": "1.0.0",
+  "description": "AI development layer manifest for cross-IDE compatibility",
+  "repository": {
+    "name": "{repository-name}",
+    "type": "{monolith|microservice|library}",
+    "language": "TypeScript",
+    "framework": "{NestJS|Express|Fastify}"
+  },
+  "entry_points": [
+    "src/main.ts"
+  ],
+  "critical_paths": [
+    "src/config/",
+    "src/shared/errors/",
+    "migrations/"
+  ],
+  "do_not_modify": [
+    "package-lock.json",
+    "migrations/",
+    ".env",
+    ".env.*"
+  ],
+  "context": {
+    "architecture": "ai/context/architecture.md",
+    "domain": "ai/context/domain.md",
+    "glossary": "ai/context/glossary.md"
+  },
+  "rules": [
+    {
+      "name": "dev-workflow",
+      "path": "ai/rules/dev-workflow.md",
+      "scope": "global"
+    },
+    {
+      "name": "coding-conventions",
+      "path": "ai/rules/coding-conventions.md",
+      "scope": "global"
+    }
+  ],
+  "commands": [
+    {
+      "name": "pr-summary",
+      "path": "ai/commands/pr-summary.md",
+      "description": "Generate PR summary from changes"
+    },
+    {
+      "name": "test-generation",
+      "path": "ai/commands/test-generation.md",
+      "description": "Generate tests for code"
+    },
+    {
+      "name": "refactor-module",
+      "path": "ai/commands/refactor-module.md",
+      "description": "Safely refactor a module"
+    },
+    {
+      "name": "incident-analysis",
+      "path": "ai/commands/incident-analysis.md",
+      "description": "Analyze production incidents"
+    },
+    {
+      "name": "explain-code",
+      "path": "ai/commands/explain-code.md",
+      "description": "Explain code sections"
+    }
+  ],
+  "skills": {
+    "mandatory": [
+      {
+        "name": "testing",
+        "path": "ai/skills/testing-skill.md",
+        "category": "dev"
+      },
+      {
+        "name": "code-style",
+        "path": "ai/skills/code-style-skill.md",
+        "category": "dev"
+      },
+      {
+        "name": "commit-format",
+        "path": "ai/skills/commit-format-skill.md",
+        "category": "dev"
+      },
+      {
+        "name": "pr-review",
+        "path": "ai/skills/pr-review-skill.md",
+        "category": "dev"
+      },
+      {
+        "name": "security",
+        "path": "ai/skills/security-skill.md",
+        "category": "dev"
+      },
+      {
+        "name": "creating-skills",
+        "path": "ai/skills/creating-skills-skill.md",
+        "category": "dev"
+      }
+    ],
+    "optional": [],
+    "domain": []
+  },
+  "validation": {
+    "lint": "npm run lint",
+    "typecheck": "npx tsc --noEmit",
+    "test": "npm run test:unit",
+    "full": "npm run validate"
+  }
+}

@@ -1,0 +1,33 @@
+---
+description: Commands index — structured workflows for common development tasks.
+alwaysApply: false
+---
+
+# Commands Reference
+
+> Source of truth: `/ai/commands/`
+
+This is a placeholder that points to the canonical commands in the `/ai` directory.
+
+## Available Commands
+
+| Command | Path | Purpose |
+|---------|------|---------|
+| PR Summary | `/ai/commands/pr-summary.md` | Generate PR summary |
+| Test Generation | `/ai/commands/test-generation.md` | Generate tests |
+| Refactor Module | `/ai/commands/refactor-module.md` | Safe refactoring |
+| Incident Analysis | `/ai/commands/incident-analysis.md` | Debug incidents |
+| Explain Code | `/ai/commands/explain-code.md` | Code explanation |
+
+## Usage
+
+Commands define structured workflows with:
+- **Goal** — What the command achieves
+- **Inputs** — Required information
+- **Steps** — Execution sequence
+- **Constraints** — Rules to follow
+- **Output Schema** — Expected format
+
+## Full Index
+
+See `/ai/commands/` directory for all available commands.

@@ -1,130 +1,138 @@
-# {Repository Name} — Repo-Wide Skill
+# {Repository Name}
 
-<!-- INSTRUCTIONS: Replace all {placeholders} with your repo's actual values. -->
-<!-- Delete sections that don't apply. Add sections specific to your repo. -->
-
----
-
-## 1. Overview
-
-{2-4 sentences: what this repo does, who it serves, where it fits in the product.}
+> {2-4 sentences: what this repo does, who it serves, where it fits in the product.}
 
 ---
 
-## 2. Tech Stack
+## Tech Stack
 
 | Layer | Technology |
-|---|---|
-| Language | Ex: TypeScript 5.x (strict mode) |
-| Runtime | Ex: Node.js 20 LTS |
-| Framework | Ex: {NestJS / Express / Fastify} |
-| Database | Ex: MongoDB 7 via Mongoose 8.x |
-| Cache | Ex: Redis 7 via ioredis |
-| Queue | Ex: {RabbitMQ / SQS / SNS, KAFKA} |
-| Testing | Ex: Jest |
-| Logging | Ex: {pino / winston} |
-| Linting | Ex: ESLint + Prettier |
-| Build | Ex: {tsup / tsc / esbuild} |
-
-<!-- For NestJS repos, add: -->
-<!-- | DI Container | NestJS built-in (constructor injection) | -->
-<!-- | ORM | Mongoose or @contentstack/mongodb | -->
+|-------|------------|
+| Language | TypeScript 5.x (strict mode) |
+| Runtime | Node.js 20 LTS |
+| Framework | {NestJS / Express / Fastify} |
+| Database | {MongoDB / PostgreSQL} |
+| Cache | {Redis} |
+| Testing | Jest |
+| Linting | ESLint + Prettier |
 
 ---
 
-## 3. Project Structure
+## Project Structure
 
 ```
 src/
-├── config/              # Env parsing, app config (zod schemas)
+├── config/              # Environment parsing, app config
 ├── modules/             # Feature modules (one per domain)
 │   ├── {module-a}/
 │   │   ├── {module-a}.controller.ts
 │   │   ├── {module-a}.service.ts
 │   │   ├── {module-a}.repository.ts
-│   │   ├── {module-a}.model.ts          # Mongoose schema
-│   │   ├── {module-a}.types.ts          # Interfaces and types
-│   │   ├── {module-a}.validator.ts      # Zod request/response schemas
-│   │   ├── {module-a}.module.ts         # NestJS module (if using NestJS)
 │   │   └── __tests__/
 │   └── {module-b}/
-├── shared/              # Cross-cutting: middleware, guards, utils, base classes
-│   ├── errors/          # Custom error classes
-│   ├── middleware/       # Auth, logging, rate-limit middleware
-│   ├── guards/          # NestJS guards (if using NestJS)
-│   ├── decorators/      # Custom decorators
-│   └── utils/           # Pure utility functions
-├── infra/               # Infrastructure: DB connections, Redis client, event bus
-├── jobs/                # Background job processors (if applicable)
+├── shared/              # Cross-cutting: middleware, utils, errors
 └── main.ts              # Entry point
+
+ai/                      # AI development layer
+├── context/             # Architecture, domain, glossary
+├── commands/            # Structured workflows
+├── skills/              # Domain knowledge (flat files)
+├── rules/               # Development rules
+└── index.json           # Machine-readable manifest
 ```
 
-<!-- Customize the tree above to match your actual structure. -->
-<!-- Keep it to 2-3 levels deep. Annotate every directory. -->
-
 ---
-## 4. How to Run the Repository
+
+## Getting Started
+
+### Prerequisites
+- Node.js 20+
+- {Database requirements}
+- {Other dependencies}
 
 ### Installation
 
 ```bash
-$ npm install
+npm install
 ```
 
-### Running the app
+### Running the App
 
 ```bash
-# development
-$ npm run start
+# Development (watch mode)
+npm run start:dev
 
-# watch mode
-$ npm run start:dev
-
-# production mode (run built app)
-$ npm run start:prod
+# Production
+npm run start:prod
 ```
 
 ### Build
 
 ```bash
-$ npm run build
+npm run build
 ```
 
-### Test
+---
+
+## Testing
 
 ```bash
-# unit tests
-$ npm run test
+# Unit tests
+npm run test
 
-# e2e tests
-$ npm run test:e2e
+# Integration tests
+npm run test:e2e
 
-# test coverage
-$ npm run test:cov
+# Coverage report
+npm run test:cov
 ```
 
-### Lint and format
+---
+
+## Validation
+
+Run before every commit:
 
 ```bash
-$ npm run lint
-$ npm run format
+npm run lint          # Lint check
+npx tsc --noEmit      # Type check
+npm run test:unit     # Unit tests
+npm run validate      # Full validation
 ```
 
-### Git Hooks
+---
 
-```bash
-# add pre-commit and pre-push githooks (Linux and MacOS)
-$ npm run install-githooks
-```
+## AI Development Layer
 
+This repository includes an `/ai` directory for AI-assisted development:
 
+| Resource | Path | Purpose |
+|----------|------|---------|
+| Context | `/ai/context/` | Architecture, domain, glossary |
+| Rules | `/ai/rules/` | Development constraints |
+| Commands | `/ai/commands/` | Structured workflows |
+| Skills | `/ai/skills/` | Domain knowledge |
+| Manifest | `/ai/index.json` | Machine-readable index |
 
-## 5. Related Skills
+### Quick Skill Reference
 
-<!-- List other skill files in this repo and related repos -->
+| Skill | When to Use |
+|-------|-------------|
+| [Testing](/ai/skills/testing-skill.md) | Writing tests |
+| [Code Style](/ai/skills/code-style-skill.md) | Writing code |
+| [Commit Format](/ai/skills/commit-format-skill.md) | Making commits |
+| [PR Review](/ai/skills/pr-review-skill.md) | Reviewing PRs |
+| [Security](/ai/skills/security-skill.md) | Handling auth/secrets |
+| [Creating Skills](/ai/skills/creating-skills-skill.md) | Adding documentation |
 
-| Skill | Location | Purpose |
-|---|---|---|
-| Code Review | `skills/code-review-skill/skill.md` | PR review automation |
-| {Module A} | `skills/{module-a}-skill/skill.md` | {Module A} domain patterns |
+---
 
+## Contributing
+
+1. Read the relevant skill files before making changes
+2. Follow the code style guidelines
+3. Write tests for all changes
+4. Run validation before committing
+5. Use conventional commit format
+
+See [AGENTS.md](AGENTS.md) for AI agent guidelines.
