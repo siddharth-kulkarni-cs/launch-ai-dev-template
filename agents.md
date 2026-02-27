@@ -2,16 +2,29 @@
 
 > Quick reference for AI agents. See `/ai/skills/` for detailed guides.
 
+## Workflow
+
+**Before any code changes or investigation:**
+
+1. **Load Context:** Read `/ai/context/architecture.md` for system understanding
+2. **Check Skills:** Read relevant `/ai/skills/` files for the specific task
+3. **Follow Rules:** Apply `/ai/rules/` constraints for all changes
+4. **Then Proceed:** Start investigation or implementation
+
 ## Standards
 
 **Testing: Every change needs tests (happy path + error path). 90% coverage minimum. By default, any code change should be done with TDD.
 → [Testing Skill](/ai/skills/testing-skill.md)
 → [TDD Skill**](/ai/skills/tdd-skill.md)
 
-**Code Style:** `kebab-case.ts` files, `PascalCase` classes, named exports only.
+**Code Style:** `kebab-case.ts` files, `PascalCase` classes, named exports only. Code should be self-documenting; avoid unnecessary comments.
 → [Code Style Skill](/ai/skills/code-style-skill.md)
 
-**Commits:** `<type>(<scope>): <subject>` — conventional commits format.
+**Code Reuse:** Follow DRY principle. Extract common logic into reusable functions.
+
+**Documentation:** Do NOT create markdown files unless explicitly requested. Ask first if unclear.
+
+**Commits:** `<git-branch-name> | <subject>` — conventional commits format.
 → [Commit Format Skill](/ai/skills/commit-format-skill.md)
 
 **Security:** No hardcoded secrets, validate all input, use custom errors.
@@ -29,15 +42,6 @@
 **Key flows:**
 
 - {Add application-specific flows here}
-
-## Validation Commands
-
-```bash
-npm run lint          # Lint check
-npx tsc --noEmit      # Type check
-npm run test:unit     # Unit tests
-npm run validate      # Full validation
-```
 
 ## Finding Skills
 

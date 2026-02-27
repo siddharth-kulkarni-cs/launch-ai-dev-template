@@ -224,6 +224,15 @@ Machine-readable manifest listing:
 
 > Quick reference. See `/ai/skills/` for guides.
 
+## Workflow
+
+**Before any code changes or investigation:**
+
+1. **Load Context:** Read `/ai/context/architecture.md` for system understanding
+2. **Check Skills:** Read relevant `/ai/skills/` files for the specific task
+3. **Follow Rules:** Apply `/ai/rules/` constraints for all changes
+4. **Then Proceed:** Start investigation or implementation
+
 ## Standards
 
 **Testing:** {rule}
@@ -275,6 +284,16 @@ To enable native auto-discovery while maintaining `/ai/` as the single source of
 - **Commands:** Create `.cursor/commands/<name>.md` files. Instruct the agent to read the corresponding `/ai/commands/` file.
 - **Skills:** Create `.cursor/skills/<name>/SKILL.md` files. Instruct the agent to execute the corresponding `/ai/skills/` file.
 
+**For GitHub Copilot:**
+- **Code Review Instructions:** Create `.github/copilot-instructions.md` file containing:
+  - Review focus areas (testing, code style, security, commit format)
+  - Architecture and layer boundaries
+  - Error handling patterns
+  - References to `/ai/skills/` for detailed standards
+  - Template-specific review guidance
+  - Common pitfalls and anti-patterns
+  - Final review checklist
+
 ## Content Rules
 
 **MUST:**
@@ -289,6 +308,9 @@ To enable native auto-discovery while maintaining `/ai/` as the single source of
 - Copy-pasted docs
 - Multiple alternatives
 - Long explanations
+- Create documentation without explicit request
+- Duplicate code instead of extracting common logic
+- Add obvious or redundant comments
 
 ## Constraints
 
@@ -297,6 +319,9 @@ To enable native auto-discovery while maintaining `/ai/` as the single source of
 - Use clear structure and bullet points
 - Assume this layer will be used by multiple IDE agents
 - Focus implementation not explanation
+- Do not create markdown files for code changes unless explicitly asked (prompt user if unclear)
+- Avoid code duplication; extract common logic into reusable components
+- Avoid adding comments unless extremely necessary; code should be self-documenting
 
 ## Execution Summary
 
@@ -312,7 +337,7 @@ To enable native auto-discovery while maintaining `/ai/` as the single source of
 10. Create examples
 11. Create index.json
 12. Create AGENTS.md (5min): 50-80 lines
-13. Create IDE-Specific Pointer Files (Cursor `.mdc`)
+13. Create IDE-Specific Pointer Files (Cursor `.mdc`, GitHub `.github/copilot-instructions.md`)
 
 **Total:** 2-4 hours
 **Output:** AI-fied repo with discoverable, cross-IDE compatible layer

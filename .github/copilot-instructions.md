@@ -1,90 +1,101 @@
 # GitHub Copilot Code Review Instructions
 
 > Custom instructions for GitHub Copilot code review in this template repository.
-> These instructions help Copilot understand the project standards and review PRs effectively.
+> **Single Source of Truth:** All detailed standards live in `/ai/` directory.
 
 ---
 
-## Repository Overview
+## About This Repository
 
-This is a **template repository** for TypeScript/Node.js projects with built-in AI development support. It provides a standardized structure for AI-assisted development with skills, rules, and commands that can be customized for specific projects.
+This is a **template repository** for TypeScript/Node.js projects with built-in AI development support.
 
-**Key Characteristics:**
-- Template placeholders: `{Repository Name}`, `{module-name}`, `{One-line description}`
-- AI development layer in `/ai` directory
-- Skills-based documentation pattern
-- Cross-IDE compatibility (Cursor, Claude, GitHub Copilot)
+**Key characteristics:**
+- Template with placeholders: `{Repository Name}`, `{module-name}`, etc.
+- AI development layer in `/ai/` directory (works across Cursor, Claude, Copilot)
+- Skills-based documentation pattern for cross-IDE compatibility
+
+**Before reviewing:** Read `/ai/README.md` for complete AI layer overview.
 
 ---
 
-## Review Focus Areas
+## Core Review Philosophy
 
-### 1. Testing Standards (CRITICAL)
+### Review Context Sources
+
+**ALWAYS reference these as source of truth:**
+
+1. **Context Files** (understand the system):
+   - `/ai/context/architecture.md` — system overview, boundaries, data flow
+   - `/ai/context/domain.md` — business concepts and domain rules
+   - `/ai/context/glossary.md` — terminology
+   - `/ai/index.json` — machine-readable manifest
+
+2. **Rules** (mandatory constraints):
+   - `/ai/rules/dev-workflow.md` — code change lifecycle, validation commands
+   - `/ai/rules/coding-conventions.md` — naming, formatting, structure
+
+3. **Skills** (detailed implementation patterns):
+   - `/ai/skills/testing-skill.md` — test patterns and requirements
+   - `/ai/skills/tdd-skill.md` — test-driven development approach
+   - `/ai/skills/code-style-skill.md` — style conventions with examples
+   - `/ai/skills/security-skill.md` — security patterns and anti-patterns
+   - `/ai/skills/commit-format-skill.md` — commit message standards
+   - `/ai/skills/pr-review-skill.md` — comprehensive review checklist
+
+### Review Priority
+
+Review in this order of severity:
+
+1. **🔴 Critical** — Security, data loss, breaking changes, missing critical tests
+2. **🟡 Important** — Architecture violations, performance, error handling, style violations
+3. **🟢 Nit** — Minor improvements, refactoring suggestions
+
+---
+
+## Quick Review Checklist
+
+Use this as a fast reference. For detailed patterns and examples, consult the skill files.
+
+### 1. Testing (CRITICAL)
 
 **Requirements:**
-- Every code change requires tests (happy path + error path)
-- Minimum 90% code coverage on new/modified files
-- Test-driven development (TDD) is the default approach
-- Bug fixes must include regression tests
-
-**Test Naming Convention:**
-```
-FeatureName > should {behavior} when {condition}
-```
-
-**What to Check:**
-- [ ] Tests exist for new/modified code
-- [ ] Happy path AND error path covered
-- [ ] Test names follow convention
+- [ ] Every code change has tests (happy path + error path)
+- [ ] Minimum 90% coverage on new/modified files
+- [ ] Test names follow: `FeatureName > should {behavior} when {condition}`
 - [ ] No test interdependencies
-- [ ] No flaky tests (time/order dependent)
-- [ ] Mocks are at the right level (services, not DB drivers)
+- [ ] Bug fixes include regression tests
+
+**Reference:** `/ai/skills/testing-skill.md` for detailed test patterns
 
 **Red Flags:**
 - Missing tests for new functions/methods
-- Tests that depend on execution order
 - Tests with `console.log` or debugging artifacts
-- Using `any` type in test code
+- Tests using `any` type
+- Order-dependent or time-dependent tests
 
 ---
 
 ### 2. Code Style (REQUIRED)
 
-**File Naming:**
-- Use `kebab-case.ts` for all TypeScript files
-- No camelCase or PascalCase file names
-
-**Code Conventions:**
-- Classes: `PascalCase`
-- Functions/variables: `camelCase`
-- Constants: `UPPER_SNAKE_CASE`
-- Named exports ONLY (no default exports)
+**File & Code Naming:**
+- [ ] Files: `kebab-case.ts`
+- [ ] Classes/Interfaces: `PascalCase`
+- [ ] Functions/variables: `camelCase`
+- [ ] Constants: `UPPER_SNAKE_CASE`
+- [ ] Named exports ONLY (no default exports)
 
 **TypeScript:**
-- Strict mode enabled
-- No `any` type (use `unknown` and narrow)
-- No `console.log` (use project logger)
+- [ ] No `any` type (use `unknown` and narrow)
+- [ ] No `console.log` (use project logger)
+- [ ] Imports properly grouped: node → external → internal
 
-**Import Organization:**
-```typescript
-// Node.js built-ins
-import { readFile } from 'fs/promises';
-
-// External dependencies
-import { Injectable } from '@nestjs/common';
-
-// Internal modules
-import { UserService } from '../user/user.service';
-```
-
-**What to Check:**
-- [ ] File names are kebab-case
-- [ ] Only named exports used
-- [ ] No `any` types introduced
-- [ ] No `console.log` statements
-- [ ] Imports properly grouped and sorted
+**Code Quality:**
 - [ ] Functions under 50 lines
 - [ ] No magic numbers or strings
+- [ ] No unnecessary comments (code should be self-documenting)
+- [ ] No code duplication (shared logic extracted)
+
+**Reference:** `/ai/rules/coding-conventions.md` and `/ai/skills/code-style-skill.md`
 
 ---
 
@@ -95,121 +106,51 @@ import { UserService } from '../user/user.service';
 - [ ] Input validation on all external data
 - [ ] No SQL/NoSQL injection vectors
 - [ ] Auth/authz checks on protected endpoints
-- [ ] No sensitive data in logs (PII, tokens)
+- [ ] No sensitive data in logs
 - [ ] No `eval()` or dynamic code execution
-- [ ] Dependencies checked for known vulnerabilities
 
-**Red Flags:**
-- Raw SQL queries with string concatenation
-- Missing input validation on API endpoints
-- Secrets in code or comments
-- Logging sensitive user data
-- Missing authentication checks
+**Reference:** `/ai/skills/security-skill.md` for patterns and anti-patterns
 
 ---
 
 ### 4. Commit Format (REQUIRED)
 
-**Format:**
-```
-<type>(<scope>): <subject>
-
-[optional body]
-```
-
-**Valid Types:**
-- `feat` - New feature
-- `fix` - Bug fix
-- `docs` - Documentation only
-- `style` - Code style (formatting, no logic change)
-- `refactor` - Code restructuring (no behavior change)
-- `perf` - Performance improvement
-- `test` - Adding or updating tests
-- `chore` - Maintenance tasks
-
-**What to Check:**
-- [ ] Commits follow conventional format
-- [ ] Each commit is atomic (one logical change)
-- [ ] Commit messages explain "why" not just "what"
-- [ ] No WIP or fixup commits in final PR
-- [ ] Subject line is concise (<50 chars)
+**Reference:** `/ai/skills/commit-format-skill.md`
 
 ---
 
-### 5. Architecture & Layer Boundaries
+### 5. Architecture (REQUIRED)
 
-**Standard Layers:**
+**Layer Boundaries:**
 ```
 Controller → Service → Repository
 ```
 
 **Rules:**
-- Controllers handle HTTP, delegate to services
-- Services contain business logic, NO HTTP types
-- Repositories handle data access
-- Dependencies flow inward
-- No circular imports
-
-**What to Check:**
-- [ ] Layer boundaries respected
-- [ ] No business logic in controllers
-- [ ] No HTTP types (Request, Response) in services
+- [ ] Controllers handle HTTP, delegate to services
+- [ ] Services contain business logic, NO HTTP types
+- [ ] Repositories handle data access
 - [ ] No circular dependencies
-- [ ] Shared code in `/shared` directory
+- [ ] Dependencies flow inward
 
-**Common Violations:**
-```typescript
-// ❌ BAD: Business logic in controller
-@Controller('users')
-export class UserController {
-  @Post()
-  async create(req: Request) {
-    // Validation logic here (should be in service)
-    const user = await this.db.save(req.body);
-  }
-}
-
-// ✅ GOOD: Delegate to service
-@Controller('users')
-export class UserController {
-  constructor(private userService: UserService) {}
-  
-  @Post()
-  async create(@Body() createDto: CreateUserDto) {
-    return this.userService.create(createDto);
-  }
-}
-```
+**Reference:** `/ai/context/architecture.md` and `/ai/rules/dev-workflow.md`
 
 ---
 
-### 6. Error Handling
+### 6. Error Handling (REQUIRED)
 
 **Requirements:**
-- Use custom error classes (subclass of `AppError`)
-- Never swallow errors (empty `catch {}`)
-- Log errors with context before re-throwing
-- Include error cause chain
-
-**What to Check:**
-- [ ] Custom error classes used
-- [ ] No empty catch blocks
-- [ ] Errors logged with context
+- [ ] Use custom error classes (subclass of `AppError`)
+- [ ] Never swallow errors (empty `catch {}`)
+- [ ] Log errors with context before re-throwing
 - [ ] Error cause chain preserved
 
-**Anti-patterns:**
+**Anti-pattern:**
 ```typescript
 // ❌ Swallowed error
 try {
   await riskyOperation();
 } catch (e) {}
-
-// ❌ Lost error context
-try {
-  await riskyOperation();
-} catch (e) {
-  throw new Error('Operation failed');
-}
 
 // ✅ Proper error handling
 try {
@@ -222,92 +163,75 @@ try {
 
 ---
 
-### 7. Performance Considerations
+### 7. Performance (IMPORTANT)
 
-**What to Check:**
+**Checks:**
 - [ ] No N+1 queries (database calls in loops)
 - [ ] Pagination on list endpoints
-- [ ] Efficient database queries (indexes considered)
-- [ ] No unnecessary data fetching
-- [ ] Proper use of caching where applicable
+- [ ] Efficient database queries
+- [ ] Proper use of caching
 
-**N+1 Query Detection:**
-```typescript
-// ❌ N+1 query
-for (const orderId of orderIds) {
-  const order = await orderRepo.findById(orderId);
-}
-
-// ✅ Batch query
-const orders = await orderRepo.findByIds(orderIds);
-```
+**Reference:** `/ai/rules/dev-workflow.md` (Performance Guardrails section)
 
 ---
 
-## AI Development Layer
+## Documentation and Code Changes
 
-### Skills System
+### Critical Rules
 
-This template includes a `/ai/skills/` directory with reusable skill documentation. When reviewing PRs that add or modify skills:
+**1. Do NOT create or modify markdown documentation files unless specifically requested**
+- Documentation updates should be intentional, not automatic
+- Before creating ANY `.md` file in a PR, ask if documentation is required
+- Exception: Required files like CHANGELOG.md or explicitly requested docs
 
-**Skill File Requirements:**
+**2. Avoid unnecessary code comments**
+- Comments should only explain "why", not "what"
+- Code should be self-documenting through clear naming
+- Remove comments that narrate what the code does
+
+**3. Avoid code duplication**
+- Check if similar logic exists elsewhere
+- Extract shared patterns into reusable functions/modules
+- Reference existing utility functions before creating new ones
+
+---
+
+## Critical Files — Extra Scrutiny
+
+Require additional review for changes to:
+
+- `package.json` — dependency changes need security review
+- `*.config.js` — affects all environments
+- `migrations/` — database migrations are irreversible
+- `.env.example` — affects deployment
+- `Dockerfile` — affects deployment
+
+**Reference:** `/ai/index.json` for complete list of critical paths
+
+---
+
+## AI Skills System
+
+### Reviewing Skill Files
+
+When PRs add or modify files in `/ai/skills/`:
+
+**File Requirements:**
 - [ ] File named `{name}-skill.md` (kebab-case)
 - [ ] Includes frontmatter with `name` and `description`
 - [ ] Has "When to Use" section
-- [ ] Contains concrete examples
+- [ ] Contains concrete examples (not generic)
 - [ ] Includes "Related Skills" section
 - [ ] Has troubleshooting guidance
 
-**Skill Quality Checks:**
-- [ ] Not too generic ("Write good code")
-- [ ] Not too specific (single function)
-- [ ] Actionable and concrete
-- [ ] Examples show before/after patterns
-- [ ] Cross-referenced with related skills
+**Quality Checks:**
+- [ ] Not too generic ("Write good code") ❌
+- [ ] Not too specific (single function) ❌
+- [ ] Actionable and concrete ✅
+- [ ] Shows before/after patterns ✅
+- [ ] Cross-referenced with related skills ✅
 
----
-
-**In Code Review Comments:**
-- Reference specific validation failures
-- Suggest fixes with code examples
-- Link to relevant skill files
-
----
-
-## Critical Files - Extra Scrutiny Required
-
-When reviewing changes to these files, require additional review:
-
-- `package.json` - Dependency changes need security review
-- `*.config.js` - Configuration affects all environments
-- `migrations/` - Database migrations are irreversible
-- `.env.example` - Environment changes affect deployment
-- `Dockerfile` - Container changes affect deployment
-
----
-
-## Review Severity Levels
-
-Use these severity markers in review comments:
-
-### 🔴 Critical - Must Fix Before Merge
-- Security vulnerabilities
-- Data loss risks
-- Breaking changes without migration
-- Missing critical tests
-- Hardcoded secrets
-
-### 🟡 Important - Should Fix
-- Architectural violations
-- Performance issues
-- Incomplete error handling
-- Style violations
-- Missing documentation
-
-### 🟢 Nit - Optional
-- Minor style improvements
-- Refactoring suggestions
-- Non-critical optimizations
+**Reference:** `/ai/skills/creating-skills-skill.md`
 
 ---
 
@@ -320,16 +244,18 @@ Structure review comments using this format:
 
 ### 🔴 Critical Issues
 - **[file.ts:L42]** Description with specific fix
+  - **Reference:** `/ai/skills/{relevant-skill}.md` (section name)
 
 ### 🟡 Important Issues  
 - **[file.ts:L15]** Description
+  - **Reference:** `/ai/rules/{relevant-rule}.md`
 
 ### 🟢 Suggestions
 - **[file.ts:L88]** Minor improvement
 
 ### ✅ Positive Notes
-- Well-structured tests
-- Good error handling
+- Well-structured tests following `/ai/skills/testing-skill.md`
+- Good error handling pattern
 
 ### Verdict
 [Approve / Request Changes / Needs Discussion]
@@ -338,6 +264,45 @@ Structure review comments using this format:
 ---
 
 ## Common Pitfalls to Catch
+
+### Unnecessary Documentation
+```markdown
+❌ Creating README updates or docs without being asked
+❌ Adding markdown files automatically in PRs
+
+✅ Only add/modify .md files when explicitly requested
+✅ Ask before generating documentation
+```
+
+### Code Comments
+```typescript
+// ❌ Obvious, unnecessary comments
+// Import the user service
+import { UserService } from './user.service';
+
+// Create a new user
+const user = new User();
+
+// ✅ Only comment non-obvious intent
+// Using exponential backoff to handle rate limiting
+const delay = Math.pow(2, retryCount) * 1000;
+```
+
+### Code Duplication
+```typescript
+// ❌ Duplicated validation logic across functions
+function createUser(data) {
+  if (!data.email || !data.email.includes('@')) throw new Error('Invalid email');
+}
+function updateUser(data) {
+  if (!data.email || !data.email.includes('@')) throw new Error('Invalid email');
+}
+
+// ✅ Extract shared logic
+function validateEmail(email: string) {
+  if (!email || !email.includes('@')) throw new ValidationError('Invalid email');
+}
+```
 
 ### Floating Promises
 ```typescript
@@ -365,27 +330,11 @@ app.post('/orders', (req, res) => {
 
 ### Template Placeholder Detection
 
-Since this is a template, watch for:
-- [ ] Unresolved `{Repository Name}` placeholders
-- [ ] `{module-name}` not customized
-- [ ] `{One-line description}` still present
-- [ ] Generic documentation not customized
-
----
-
-## Skill File References
-
-For deeper context on standards, refer reviewers to:
-
-- **Testing:** `/ai/skills/testing-skill.md`
-- **TDD:** `/ai/skills/tdd-skill.md`
-- **Code Style:** `/ai/skills/code-style-skill.md`
-- **Security:** `/ai/skills/security-skill.md`
-- **Commit Format:** `/ai/skills/commit-format-skill.md`
-- **PR Review:** `/ai/skills/pr-review-skill.md`
-- **Creating Skills:** `/ai/skills/creating-skills-skill.md`
-
-**Note:** These skill files contain detailed examples and troubleshooting guidance.
+Since this is a template, watch for unresolved placeholders:
+- [ ] `{Repository Name}` not customized
+- [ ] `{module-name}` still present
+- [ ] `{One-line description}` not filled
+- [ ] Generic documentation not customized for actual project
 
 ---
 
@@ -396,7 +345,7 @@ When reviewing PRs in projects using this template:
 1. **Check Template Customization:**
    - Has the project replaced placeholder values?
    - Are project-specific skills created?
-   - Is architecture.md customized?
+   - Is `/ai/context/architecture.md` customized?
 
 2. **Skill System Usage:**
    - Are new patterns documented as skills?
@@ -405,7 +354,7 @@ When reviewing PRs in projects using this template:
 
 3. **Cross-IDE Compatibility:**
    - Are instructions IDE-agnostic?
-   - No Cursor-specific syntax in shared docs
+   - No tool-specific syntax in shared docs
    - Paths work from repository root
 
 ---
@@ -419,18 +368,56 @@ Before approving ANY PR:
 - [ ] No linting or type errors
 - [ ] Commit messages follow convention
 - [ ] No security vulnerabilities introduced
-- [ ] Layer boundaries respected
+- [ ] Layer boundaries respected (check `/ai/context/architecture.md`)
 - [ ] Error handling is proper
-- [ ] Documentation updated if needed
-- [ ] No hardcoded secrets
-- [ ] Performance considerations addressed
+- [ ] Documentation updated if needed (only when explicitly required)
+- [ ] No hardcoded secrets (check `/ai/skills/security-skill.md`)
+- [ ] Performance considerations addressed (check `/ai/rules/dev-workflow.md`)
+- [ ] No unnecessary markdown files added without request
+- [ ] No obvious/unnecessary code comments
+- [ ] No code duplication (shared logic extracted)
+- [ ] Validation commands pass (check `/ai/rules/dev-workflow.md`)
 
 ---
 
-## References
+## Deep Dive References
 
-- [Development Workflow Rules](/ai/rules/dev-workflow.md)
-- [Coding Conventions](/ai/rules/coding-conventions.md)
-- [PR Review Skill](/ai/skills/pr-review-skill.md)
-- [AGENTS.md](/AGENTS.md) - AI agent guidelines
-- [CLAUDE.md](/CLAUDE.md) - Claude Code guidelines
+For comprehensive guidance on each topic, consult:
+
+### Core Skills
+- **Testing Patterns:** `/ai/skills/testing-skill.md`
+- **TDD Workflow:** `/ai/skills/tdd-skill.md`
+- **Code Style:** `/ai/skills/code-style-skill.md`
+- **Security Patterns:** `/ai/skills/security-skill.md`
+- **Commit Standards:** `/ai/skills/commit-format-skill.md`
+- **PR Review Checklist:** `/ai/skills/pr-review-skill.md`
+- **Creating Skills:** `/ai/skills/creating-skills-skill.md`
+
+### Rules & Context
+- **Development Workflow:** `/ai/rules/dev-workflow.md`
+- **Coding Conventions:** `/ai/rules/coding-conventions.md`
+- **System Architecture:** `/ai/context/architecture.md`
+- **Domain Context:** `/ai/context/domain.md`
+- **Terminology:** `/ai/context/glossary.md`
+
+### Machine-Readable
+- **Manifest:** `/ai/index.json` — critical paths, commands, validation scripts
+
+### Root Documentation
+- **AI Agent Guidelines:** `/AGENTS.md` — quick reference for AI agents
+- **Claude Guidelines:** `/CLAUDE.md` — Claude Code specific guidance
+
+---
+
+## Summary
+
+**This file is a quick reference.** All detailed standards, patterns, and examples live in `/ai/` directory.
+
+**Review flow:**
+1. Read PR description and load context from `/ai/context/`
+2. Review code against checklist above
+3. For details, consult specific skill files in `/ai/skills/`
+4. Reference exact file/section in review comments
+5. Use severity markers (🔴 🟡 🟢) consistently
+
+**Remember:** The `/ai/` directory is the single source of truth. Keep this file as a lightweight index, not a duplicate.

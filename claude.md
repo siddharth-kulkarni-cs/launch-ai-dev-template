@@ -21,7 +21,7 @@ This repository uses the `/ai` directory for AI-assisted development:
 
 - Tests: happy path + error path, 90% coverage. By default, any code change should be done with TDD.
 - Style: `kebab-case.ts`, `PascalCase` classes, named exports
-- Commits: `<type>(<scope>): <subject>`
+- Commits: `<git-branch-name> | <subject>` (e.g., `CL-1234 | add user validation`)
 - Security: no secrets, validate input
 
 ## Validation

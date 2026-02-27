@@ -78,6 +78,8 @@ import { OrderRepository } from './order.repository';
 
 ## Comments Policy
 
+**Philosophy:** Code should be self-documenting. Only add comments when code cannot express intent.
+
 ### Do Comment
 - Non-obvious business logic
 - Workarounds (with issue link)
@@ -85,6 +87,47 @@ import { OrderRepository } from './order.repository';
 - Public API (JSDoc)
 
 ### Don't Comment
-- Obvious code
+- Obvious code (`// increment counter`, `// return result`)
+- What the code does (use clear naming instead)
 - Commented-out code
 - TODO without context
+
+---
+
+## Code Reuse
+
+**DRY Principle:** Don't Repeat Yourself
+
+```typescript
+// ✅ Extract common logic
+function validateEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// ❌ Duplicate validation logic
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email)) {}
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(admin.email)) {}
+```
+
+**When to extract:**
+- Logic used in 2+ places
+- Complex conditions (>3 operators)
+- Business rules that may change
+
+---
+
+## Documentation Policy
+
+**When to create markdown files:**
+- User explicitly requests documentation
+- New architectural pattern introduced
+- Complex domain logic needs explanation
+- Setup/deployment procedures
+
+**When NOT to create markdown:**
+- Simple bug fixes
+- Code refactoring
+- Adding tests
+- Minor feature changes
+
+**Ask first** if documentation need is unclear.

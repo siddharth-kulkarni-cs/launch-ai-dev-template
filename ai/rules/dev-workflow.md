@@ -15,6 +15,15 @@ Every code change must follow this sequence:
 4. **Validate** — Run validation commands after code generation
 5. **Review** — Self-review against PR review skill checklist
 
+### Documentation Guidelines
+
+**Do NOT create markdown files unless:**
+- User explicitly requests documentation
+- New architectural pattern is introduced
+- Complex domain logic requires explanation
+
+**When in doubt, ask the user before creating documentation.**
+
 ---
 
 ## Skill File References
@@ -120,9 +129,9 @@ These files require manual review before changes:
 
 ### Commit Format
 ```
-<type>(<scope>): <subject>
+<git-branch-name> | <subject>
 ```
-Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`
+Example: `CL-1234 | add bulk cancellation endpoint`
 
 ### PR Requirements
 - [ ] All validation commands pass
